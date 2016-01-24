@@ -163,7 +163,7 @@ class SiteController extends Controller
                     )->execute();
                     if ($isInsert) {
                         foreach ($photoData as $p_data) {
-                            $path = Yii::getAlias('@webroot/media/'.$p_data['album_id'].'/'.$p_data['photo_name']);
+                            $path = Yii::getAlias('@mediaDir'.$p_data['album_id'].'/'.$p_data['photo_name']);
                             if(!is_dir(dirname($path))) {
                                 mkdir(dirname($path), 0777, true);
                             }
