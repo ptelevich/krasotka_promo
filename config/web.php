@@ -1,5 +1,6 @@
 <?php
 
+require(__DIR__ . '/aliases.php');
 $params = require(__DIR__ . '/params.php');
 
 $config = [
@@ -50,7 +51,8 @@ $config = [
         ],
         'db' => require(__DIR__ . '/db.php'),
         'urlManager' => [
-            'enablePrettyUrl' => true,
+            //'enablePrettyUrl' => true,
+            'enablePrettyUrl' => false,
             'showScriptName' => false,
             'enableStrictParsing' => false,
             'rules' => [
