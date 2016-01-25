@@ -18,7 +18,12 @@ AppAsset::register($this);
     <meta charset="<?= Yii::$app->charset ?>">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <?= Html::csrfMetaTags() ?>
-    <title><?= Html::encode($this->title) ?></title>
+    <meta name="description" content="Свадебный салон, свадебный салон в Борисове, свадебные платья, свадебные платья в Борисове, свадебные платья 2016, свадебные аксессуары. Вечерние платья, детские платья, прокат платьев в Борисове" />
+    <meta name="keywords" content="Свадебный салон &quot;Красотка&quot; в Борисове. Широкий выбор свадебных платьев, вечерних платьев, детских платьев и аксессуаров напрокат. В наличие всегда свежие и актуальные модели. Хотите найти лучший свадебный салон Борисова? Самые роскошные и достойные платья" />
+    <meta name="robots" content="index, follow">
+    <meta name="revisit-after" content="3 month">
+    <title>Свадебный салон "Красотка" в Борисове. Прокат свадебных платьев</title>
+    <!-- свадебные платья Борисов -->
     <?php $this->head() ?>
 </head>
 <body>

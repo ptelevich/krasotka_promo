@@ -1,5 +1,7 @@
 <?php
 
 Yii::setAlias('mediaDir', '/web/media/');
-Yii::setAlias('webroot', '/web/');
-//Yii::setAlias('web', '@app/web/');
+
+if(YII_ENV_DEV) {
+    Yii::setAlias('mediaDir', '/media/');
+}
