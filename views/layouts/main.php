@@ -23,6 +23,7 @@ AppAsset::register($this);
     <meta name="robots" content="index, follow">
     <meta name="revisit-after" content="3 month">
     <title>Свадебный салон "Красотка" в Борисове. Прокат свадебных платьев</title>
+    <link rel="shortcut icon" href="<?= Yii::getAlias('@rootDir') ?>/favicon.ico" />
     <!-- свадебные платья Борисов -->
     <?php $this->head() ?>
 </head>
