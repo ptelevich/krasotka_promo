@@ -13,6 +13,10 @@ $config = [
             'cookieValidationKey' => 'LDV68xlaQQwhioSyIMHRtQvPiKwnQXWr',
             'baseUrl' => '',
         ],
+        'googleMapMarker' => [
+            'class' => 'widgets\googleMapMarker\GoogleMapMarker',
+            'browserKey' => 'AIzaSyBMolFPNCi87oTqMQo6q4rdh5ZcIw0kAaI'
+        ],
         'cache' => [
             'class' => 'yii\caching\FileCache',
         ],
