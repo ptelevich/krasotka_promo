@@ -19,8 +19,9 @@
     }
 </style>
 
-<a href="/">
-    <img src="/img/back-arrow.png" title="Назад к альбому" width="20"/> Назад к альбомам
+<a href="/" style="line-height: 30px;">
+    <img src="/img/back-arrow.png" title="Назад к альбому" width="20"/>
+    <span style="font-size: 16px; font-style: italic;">Назад к альбомам</span>
 </a>
 
 <div class="royalSlider rsDefault">
