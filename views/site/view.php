@@ -19,7 +19,7 @@
     }
 </style>
 
-<a href="/" style="line-height: 30px;">
+<a href="/" style="line-height: 30px; color: hotpink;">
     <img src="/img/back-arrow.png" title="Назад к альбому" width="20"/>
     <span style="font-size: 16px; font-style: italic;">Назад к альбомам</span>
 </a>
