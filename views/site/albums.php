@@ -36,7 +36,7 @@
                 <div class="descriptionText">
                     <?= $album['title'] ?><br/><?= $album['description'] ?>
                 </div>
-                <img src="<?= Yii::getAlias('@mediaDir') ?>/<?= $album['album_id'] ?>/<?= $album->photos[0]['photo_name'] ?>" height="350"/>
+                <img src="<?= Yii::getAlias('@mediaDir') ?>/<?= $album['album_id'] ?>/<?= $album['photo_name'] ?>" height="350"/>
             </a>
         </li>
     <?php endforeach; ?>

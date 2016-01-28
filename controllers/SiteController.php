@@ -14,7 +14,7 @@ use yii\web\Controller;
 use yii\filters\VerbFilter;
 use app\models\LoginForm;
 use app\models\ContactForm;
-
+use yii\helpers\StringHelper;
 /**
  * qwe
  * @property VKontakte _vkObject
@@ -79,7 +79,12 @@ class SiteController extends Controller
 
     public function actionIndex()
     {
-        $albums = Album::find()->all();
+        $albums = Album::find()
+            ->select(['*'])
+            ->joinWith($this->_getClassBaseName(new Photos()))
+            ->where(['main_photo' => 1])
+            ->asArray()
+            ->all();
         return $this->render('albums', compact('albums'));
     }
 
@@ -91,20 +96,23 @@ class SiteController extends Controller
 
     public function actionVk()
     {
+        exit('WARNING EXIT');
         echo '<pre>';
         $this->_vkObject = Yii::$app->authClientCollection->getClient('vkontakte');
         if ($this->_makeOAuth()) {
-            $albums = $this->_createAlbum();
-            $this->_createAlbumPhoto($albums);
+            $response = $this->_createAlbum();
+            $this->_createAlbumPhoto($response['albumData'], $response['albumThumbs']);
         }
     }
 
     private function _createAlbum()
     {
         $albumData = [];
+        $albumThumbs = [];
         $data = $this->_vkObject->api('photos.getAlbums', 'GET', ['owner_id' => '-'.self::VK_GROUP_ID]);
         if(isset($data, $data['response'], $data['response'][0])) {
             foreach ($data['response'] as $response) {
+                $albumThumbs[] = (int)$response['thumb_id'];
                 $albumData[] = [
                     'album_id' => $response['aid'],
                     'title' => $response['title'],
@@ -116,17 +124,27 @@ class SiteController extends Controller
                 ];
             }
             if($albumData && $albumData[0]) {
+                Yii::$app->db->createCommand('TRUNCATE `'.$this->_getClassBaseName(new Photos()).'`')->execute();
+                Yii::$app->db->createCommand('TRUNCATE `'.$this->_getClassBaseName(new Album()).'`')->execute();
                 Yii::$app->db->createCommand()->batchInsert(Album::tableName(), array_keys($albumData[0]), $albumData)->execute();
             }
         }
-        return $albumData;
+        return [
+            'albumData' => $albumData,
+            'albumThumbs' => $albumThumbs,
+        ];
     }
 
-    private function _createAlbumPhoto(array $albums)
+    private function _getClassBaseName($model)
+    {
+        return strtolower(StringHelper::basename(get_class($model)));
+    }
+
+    private function _createAlbumPhoto(array $albums, array $albumThumbs)
     {
         $photoData = [];
         $data = [];
-        foreach ($albums as $album) {
+        foreach ($albums as $key => $album) {
             sleep(1);
             $data = $this->_vkObject->api(
                 'photos.get',
@@ -144,13 +162,18 @@ class SiteController extends Controller
                     $pname = $album['title'].'_'.$album['description'].'_'.$response['text'];
                     $pname = 'krasotka_me_'.self::_get_in_translate_to_en($pname).'_'.$response['pid'];
                     $pname = preg_replace('/(\.|\/|<.*>| )/', '_', $pname);
+                    $mainPhoto = 0;
+                    if ($albumThumbs[$key] == $response['pid']) {
+                        $mainPhoto = 1;
+                    }
                     $photoData[] = [
                         'album_id' => $response['aid'],
                         'photo_id' => $response['pid'],
-                        'vk_photo' => $response['src_xbig'],
+                        'vk_photo' => isset($response['src_xbig']) ? $response['src_xbig'] : $response['src_big'],
                         'photo_name' => $pname.'.jpg',
                         'text' => $response['text'],
                         'vk_created' => (int)$response['created'],
+                        'main_photo' => $mainPhoto,
                         'created_at' => time(),
                         'updated_at' => time(),
                     ];
@@ -163,7 +186,7 @@ class SiteController extends Controller
                     )->execute();
                     if ($isInsert) {
                         foreach ($photoData as $p_data) {
-                            $path = Yii::getAlias('@mediaDir'.$p_data['album_id'].'/'.$p_data['photo_name']);
+                            $path = Yii::getAlias('@fullMediaDir/'.$p_data['album_id'].'/'.$p_data['photo_name']);
                             if(!is_dir(dirname($path))) {
                                 mkdir(dirname($path), 0777, true);
                             }
