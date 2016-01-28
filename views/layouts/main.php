@@ -30,7 +30,7 @@ AppAsset::register($this);
 <body>
 <?php $this->beginBody() ?>
 
-<div class="wrap" style="background-color: #FFEFD5; position: relative; min-width: 800px;">
+<div class="wrap" style="background-color: #FFEFD5; min-width: 800px;">
     <?php
     NavBar::begin([
         'brandLabel' => 'Свадебный салон "Красотка"',
