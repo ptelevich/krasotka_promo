@@ -74,7 +74,7 @@ class NavBar extends Widget
     /**
      * @var string text to show for screen readers for the button to toggle the navbar.
      */
-    public $screenReaderToggleText = 'Toggle navigation';
+    public $screenReaderToggleText = 'Свадебный салон Борисов';
     /**
      * @var boolean whether the navbar content should be included in an inner div container which by default
      * adds left and right padding. Set this to false for a 100% width navbar.
