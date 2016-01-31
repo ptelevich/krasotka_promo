@@ -63,7 +63,6 @@ $this->_setLog(['mess' => 'success make OAuth']);
             $objects = scandir($dir);
             foreach ($objects as $object) {
                 if ($object != "." && $object != "..") {
-                    var_dump('remove object - ' . $object);
                     if (filetype($dir . "/" . $object) == "dir") {
                         $this->removeDir($dir . "/" . $object);
                     } else {
@@ -72,6 +71,7 @@ $this->_setLog(['mess' => 'success make OAuth']);
                 }
             }
             reset($objects);
+        $this->_setLog(['mess' => 'remove dir - ' . $dir]);
             rmdir($dir);
         }
     }
@@ -130,6 +130,7 @@ $this->_setLog(['mess' => 'success make OAuth']);
             );
             if(isset($data, $data['response'], $data['response'][0])) {
                 $photoData = [];
+            $this->_setLog(['mess' => 'find ('.count($data['response']).') photo in album: '. $album['title'].'_'.$album['description']]);
                 foreach ($data['response'] as $response) {
                     $pname = $album['title'].'_'.$album['description'].'_'.$response['text'];
                     $pname = 'krasotka_me_'.self::_get_in_translate_to_en($pname).'_'.$response['pid'];
@@ -165,12 +166,12 @@ $this->_setLog(['mess' => 'success make OAuth']);
                             $image = file_get_contents($p_data['vk_photo']);
                             file_put_contents($path, $image);
                         }
+                        $this->_setLog(['mess' => 'save in path: ' . $path]);
                     }
                 }
+                $this->_setLog(['mess' => 'Left ('.(count($albums) - ($key+1)).')']);
             }
         }
-        var_dump($data);
-        exit;
     }
 
     /** @var $vk VKontakte */
